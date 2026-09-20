@@ -1,19 +1,11 @@
-/* Lingua frontend — deploy with AWS Amplify Hosting.
- *
- * Auth: Cognito Hosted UI (implicit flow, token in URL hash).
- *   For production switch to authorization-code flow with PKCE.
- * Voice: browser Web Speech API (SpeechRecognition + speechSynthesis),
- *   so no WebSocket backend is needed for spoken practice.
- */
-
 const CONFIG = {
-  API: "https://PASTE_YOUR_API_GATEWAY_URL",          // e.g. https://abc.execute-api.eu-west-1.amazonaws.com
-  COGNITO_DOMAIN: "PASTE_YOUR_COGNITO_DOMAIN",        // e.g. lingua-school.auth.eu-west-1.amazonaws.com
-  CLIENT_ID: "PASTE_YOUR_APP_CLIENT_ID",
+  API: "/api",
+  COGNITO_DOMAIN: "your-auth-domain.auth.us-east-1.amazoncognito.com",        
+  CLIENT_ID: "your-cognito-client-id",
   REDIRECT_URI: window.location.origin + window.location.pathname,
 };
 
-/* Language name -> BCP-47 tag used by speech recognition / synthesis. */
+
 const LANGUAGES = {
   "Spanish": "es-ES", "French": "fr-FR", "German": "de-DE",
   "Italian": "it-IT", "Portuguese": "pt-PT", "Dutch": "nl-NL",
@@ -31,8 +23,6 @@ const ICON_LISTEN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" 
 const $ = (id) => document.getElementById(id);
 let idToken = sessionStorage.getItem("id_token");
 let autoSpeak = localStorage.getItem("lingua_autospeak") !== "off";
-
-/* ---------- auth ---------- */
 
 function loginUrl() {
   const p = new URLSearchParams({
@@ -58,7 +48,7 @@ function logout() {
   location.href = `https://${CONFIG.COGNITO_DOMAIN}/logout?client_id=${CONFIG.CLIENT_ID}&logout_uri=${CONFIG.REDIRECT_URI}`;
 }
 
-/* ---------- API ---------- */
+
 
 async function api(path, options = {}) {
   const resp = await fetch(CONFIG.API + path, {
@@ -75,7 +65,7 @@ async function api(path, options = {}) {
   return data;
 }
 
-/* ---------- speech ---------- */
+
 
 function speak(text, langTag) {
   const u = new SpeechSynthesisUtterance(text);
@@ -109,7 +99,7 @@ function setupMic() {
   };
 }
 
-/* ---------- chat UI ---------- */
+
 
 function scrollDown() { $("chat").scrollTop = $("chat").scrollHeight; }
 
@@ -184,10 +174,9 @@ async function loadHistory() {
   try {
     const { messages } = await api("/history");
     messages.forEach(m => addMessage(m.role, m.text));
-  } catch { /* fresh start is fine */ }
+  } catch { }
 }
 
-/* ---------- controls ---------- */
 
 function persistControls() {
   localStorage.setItem("lingua_language", $("language").value);
@@ -203,7 +192,7 @@ function restoreControls() {
   $("autoSpeak").setAttribute("aria-pressed", autoSpeak);
 }
 
-/* ---------- boot ---------- */
+
 
 handleAuthReturn();
 if (!idToken) {
