@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lingua — AI language tutor</title>
+<style>
+  :root {
+    --bg: #f7f5f0;
+    --surface: #ffffff;
+    --ink: #1b1a17;
+    --muted: #7a756c;
+    --line: #e7e2d8;
+    --accent: #b5522f;
+    --accent-soft: #f6e9e2;
+    --bot: #f0ede5;
+    --bot-line: #e4dfd3;
+    --sans: "Avenir Next", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--sans); }
+
+  /* ---------- header ---------- */
+  header {
+    max-width: 760px; margin: 0 auto; padding: 26px 20px 10px;
+    display: flex; align-items: baseline; justify-content: space-between;
+  }
+  .wordmark { font-family: var(--serif); font-size: 24px; font-weight: 600; letter-spacing: 0.2px; }
+  .wordmark em { font-style: italic; }
+  .wordmark .dot { color: var(--accent); }
+  #who { font-size: 13px; color: var(--muted); margin-right: 14px; }
+  #logoutBtn {
+    font: inherit; font-size: 13px; color: var(--muted); background: none;
+    border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; cursor: pointer;
+    transition: color 150ms, border-color 150ms;
+  }
+  #logoutBtn:hover { color: var(--ink); border-color: var(--ink); }
+
+  main { max-width: 760px; margin: 0 auto; padding: 14px 20px 40px; }
+
+  /* ---------- controls ---------- */
+  .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; align-items: center; }
+  select {
+    font: inherit; font-size: 14px; color: var(--ink); background: var(--surface);
+    border: 1px solid var(--line); border-radius: 999px; padding: 9px 16px; cursor: pointer;
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a756c' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center;
+    padding-right: 34px; transition: border-color 150ms;
+  }
+  select:hover, select:focus { border-color: var(--ink); outline: none; }
+  #language { min-width: 150px; }
+  #autoSpeak {
+    font: inherit; font-size: 13px; display: inline-flex; align-items: center; gap: 7px;
+    background: var(--surface); color: var(--muted); border: 1px solid var(--line);
+    border-radius: 999px; padding: 9px 16px; cursor: pointer; transition: all 150ms;
+  }
+  #autoSpeak svg { width: 15px; height: 15px; }
+  #autoSpeak.on { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+
+  /* ---------- chat ---------- */
+  #chat {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 20px;
+    min-height: 52vh; max-height: 60vh; overflow-y: auto; padding: 22px;
+    display: flex; flex-direction: column; gap: 10px; scroll-behavior: smooth;
+  }
+  .msg {
+    max-width: 78%; padding: 11px 16px; border-radius: 18px;
+    line-height: 1.5; font-size: 15px; white-space: pre-wrap;
+    animation: rise 220ms ease-out;
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+  .msg.user {
+    align-self: flex-end; background: var(--ink); color: #fdfcf9;
+    border-bottom-right-radius: 6px;
+  }
+  .msg.bot {
+    align-self: flex-start; background: var(--bot); border: 1px solid var(--bot-line);
+    border-bottom-left-radius: 6px;
+  }
+  .msg .say {
+    display: inline-flex; align-items: center; gap: 5px; margin-top: 8px;
+    font: inherit; font-size: 12px; color: var(--muted); background: none;
+    border: none; cursor: pointer; padding: 0; transition: color 150ms;
+  }
+  .msg .say svg { width: 13px; height: 13px; }
+  .msg .say:hover { color: var(--accent); }
+
+  /* typing indicator */
+  .msg.typing { display: flex; gap: 5px; padding: 16px 18px; }
+  .msg.typing span {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--muted);
+    opacity: 0.35; animation: blink 1.2s infinite;
+  }
+  .msg.typing span:nth-child(2) { animation-delay: 0.2s; }
+  .msg.typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink { 0%, 70%, 100% { opacity: 0.25; } 35% { opacity: 1; } }
+
+  /* empty state */
+  #empty {
+    margin: auto; text-align: center; color: var(--muted);
+    display: flex; flex-direction: column; align-items: center; gap: 16px;
+  }
+  #empty p { font-family: var(--serif); font-size: 19px; font-style: italic; color: var(--ink); }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .chips button {
+    font: inherit; font-size: 13px; color: var(--muted); background: var(--surface);
+    border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; cursor: pointer;
+    transition: all 150ms;
+  }
+  .chips button:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ---------- composer ---------- */
+  .composer {
+    display: flex; align-items: flex-end; gap: 10px; margin-top: 14px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 20px;
+    padding: 10px 10px 10px 20px; transition: border-color 150ms;
+  }
+  .composer:focus-within { border-color: var(--ink); }
+  #input {
+    flex: 1; border: none; outline: none; resize: none; background: none;
+    font: inherit; font-size: 15px; line-height: 1.5; max-height: 120px; padding: 8px 0;
+  }
+  .composer button {
+    width: 42px; height: 42px; border-radius: 50%; border: none; cursor: pointer;
+    display: grid; place-items: center; flex-shrink: 0; transition: all 150ms;
+  }
+  .composer button svg { width: 18px; height: 18px; }
+  #send { background: var(--ink); color: #fdfcf9; }
+  #send:hover { background: var(--accent); }
+  #mic { background: none; border: 1px solid var(--line); color: var(--muted); }
+  #mic:hover:not(:disabled) { color: var(--ink); border-color: var(--ink); }
+  #mic.listening { background: var(--accent); border-color: var(--accent); color: #fff; animation: pulse 1.6s infinite; }
+  #mic:disabled { opacity: 0.4; cursor: not-allowed; }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(181, 82, 47, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(181, 82, 47, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(181, 82, 47, 0); }
+  }
+  #status { font-size: 13px; color: var(--muted); margin-top: 10px; min-height: 18px; padding-left: 6px; }
+
+  /* ---------- login ---------- */
+  #login { max-width: 400px; margin: 14vh auto 0; text-align: center; padding: 0 20px; }
+  #login h2 { font-family: var(--serif); font-size: 32px; font-weight: 600; line-height: 1.2; }
+  #login h2 em { color: var(--accent); }
+  #login p { color: var(--muted); margin: 14px 0 26px; font-size: 15px; line-height: 1.6; }
+  #loginLink {
+    display: inline-block; font-size: 15px; text-decoration: none; color: #fdfcf9;
+    background: var(--ink); border-radius: 999px; padding: 13px 34px; transition: background 150ms;
+  }
+  #loginLink:hover { background: var(--accent); }
+</style>
+</head>
+<body>
+<header>
+  <div class="wordmark">Ling<em>u</em>a<span class="dot">.</span></div>
+  <div>
+    <span id="who"></span>
+    <button id="logoutBtn" style="display:none">Log out</button>
+  </div>
+</header>
+
+<div id="login" style="display:none">
+  <h2>Speak a <em>new language</em>, fluently.</h2>
+  <p>Your AI conversation partner for any language, at any hour. Sign in with your university account to begin.</p>
+  <a id="loginLink" href="#">Sign in</a>
+</div>
+
+<main id="app" style="display:none">
+  <div class="controls">
+    <select id="language" title="Language to learn"></select>
+    <select id="level" title="Your level">
+      <option>A1</option><option>A2</option><option selected>B1</option>
+      <option>B2</option><option>C1</option><option>C2</option>
+    </select>
+    <button id="autoSpeak" class="on" aria-pressed="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>
+      <span>Auto-speak</span>
+    </button>
+  </div>
+  <div id="chat">
+    <div id="empty">
+      <p>Every fluent speaker started with a first sentence.</p>
+      <div class="chips">
+        <button data-prompt="Hello! I'd like to practise. Please introduce yourself.">Introduce yourself</button>
+        <button data-prompt="Can you help me practise ordering a coffee?">Order a coffee</button>
+        <button data-prompt="Let's have a conversation about my day. Ask me what I did today.">Talk about my day</button>
+      </div>
+    </div>
+  </div>
+  <div class="composer">
+    <textarea id="input" rows="1" placeholder="Type or say something in your new language…"></textarea>
+    <button id="mic" title="Speak">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+    </button>
+    <button id="send" title="Send">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+  <div id="status"></div>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
