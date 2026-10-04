@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Buddy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="app">
+
+        <header class="app-header">
+            <div>
+                <h1>Language Buddy</h1>
+                <p>Practice a language with AI.</p>
+            </div>
+        </header>
+
+        <section class="settings">
+
+            <div class="field">
+                <label for="language">Language</label>
+
+                <select id="language">
+                    <option value="Thai">Thai</option>
+                    <option value="English">English</option>
+                    <option value="Spanish">Spanish</option>
+                    <option value="French">French</option>
+                    <option value="German">German</option>
+                    <option value="Italian">Italian</option>
+                    <option value="Portuguese">Portuguese</option>
+                    <option value="Japanese">Japanese</option>
+                    <option value="Korean">Korean</option>
+                    <option value="Chinese">Chinese</option>
+                    <option value="Arabic">Arabic</option>
+                    <option value="Russian">Russian</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="Indonesian">Indonesian</option>
+                    <option value="Turkish">Turkish</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="level">Level</label>
+
+                <select id="level">
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                </select>
+            </div>
+
+        </section>
+
+        <section class="chat">
+
+            <div class="chat-header">
+                <h2>Language Buddy</h2>
+            </div>
+
+            <div id="messages" class="messages">
+                <div class="message ai-message">
+                    Hello! Choose a language and level, then send me a message to start practicing.
+                </div>
+            </div>
+
+            <div class="input-area">
+                <input
+                    type="text"
+                    id="messageInput"
+                    placeholder="Type your message..."
+                >
+
+                <button id="sendButton">Send</button>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
