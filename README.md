@@ -1,4 +1,4 @@
-# Language Buddy 🌍
+# Language Buddy 
 
 Language Buddy is an AI-powered language practice application that helps users practice conversations in different languages with an AI partner.
 
