@@ -37,6 +37,9 @@ The current application includes:
 - Indonesian
 - Turkish
 
+  <img width="940" height="907" alt="image" src="https://github.com/user-attachments/assets/2779426d-09b8-478a-b6f8-90a17576e112" />
+
+
 ## How It Works
 
 Language Buddy uses a frontend, a Python backend, and the Gemini API.
@@ -217,19 +220,18 @@ in a web browser.
 
 Select a language and learning level, type a message, and press **Send**.
 
+<img width="940" height="907" alt="image" src="https://github.com/user-attachments/assets/a469399d-fe7d-47a2-9f9a-292b850a3aa7" />
+
+
 The frontend sends the message to the Flask backend, which sends it to Gemini and returns the AI response.
 
 ## Example
 
-### User
 
-```text
-Language: Thai
-Level: Beginner
+<img width="1349" height="921" alt="Screenshot (478)" src="https://github.com/user-attachments/assets/0da7171a-2ab6-4143-9d17-15841c1939d8" />
 
-Message:
-สวัสดี
-```
+
+<img width="927" height="918" alt="Screenshot (479)" src="https://github.com/user-attachments/assets/03fbd38e-c508-484f-9317-07d1f5a843d9" />
 
 ### AI
 
