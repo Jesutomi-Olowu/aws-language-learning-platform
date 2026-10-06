@@ -29,22 +29,21 @@ async function sendMessage() {
     return;
   }
 
-  // Show user's message
   addMessage(message, "user");
 
-  // Clear input
+  
   messageInput.value = "";
 
-  // Disable button while AI is thinking
+  
   sendButton.disabled = true;
   sendButton.textContent = "Thinking...";
 
   try {
-    const response = await fetch("http://127.0.0.1:5000/chat", {
+    const response = await fetch("http://127.0.0.1:8000/chat", {
       method: "POST",
-
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": 
+    "application/json",
       },
 
       body: JSON.stringify({
