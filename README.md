@@ -49,11 +49,11 @@ User
   ↓
 HTML / CSS / JavaScript
   ↓
-Python Flask Backend
+Python FastAPI Backend
   ↓
 Gemini API
   ↓
-Python Flask Backend
+Python FastAPI Backend
   ↓
 JavaScript
   ↓
@@ -74,7 +74,7 @@ It contains:
 
 ### Backend
 
-The backend is built with Python and Flask.
+The backend is built with Python and FastAPI.
 
 It:
 
@@ -87,11 +87,8 @@ It:
 ### Gemini
 
 Gemini provides the AI capabilities of the application.
-
 The Gemini API is accessed from the Python backend.
-
-The API key is stored as an environment variable rather than inside the frontend code.
-
+The API key is stored as an environment variable.
 This prevents the API key from being exposed to users through the browser.
 
 ## Project Structure
@@ -115,8 +112,8 @@ language-buddy/
 Before running the application, make sure you have:
 
 - Python 3 installed
-- Flask
-- Flask-CORS
+- FastAPI
+- UVicorn
 - Google GenAI Python SDK
 - A Gemini API key
 
@@ -141,7 +138,7 @@ cd backend
 Install the required packages:
 
 ```bash
-pip install flask flask-cors google-genai
+pip install fastapi uvicorn google-genai
 ```
 
 ## API Key Setup
@@ -197,15 +194,15 @@ python app.py
 The backend should run at:
 
 ```text
-http://127.0.0.1:5000
+http://127.0.0.1:8000
 ```
 
-The `/` address may display a `Not Found` message because the application does not currently have a homepage route.
+The `/` address displayed a `Not Found` message because the application does not currently have a homepage route.
 
 The frontend communicates with the `/chat` endpoint:
 
 ```text
-http://127.0.0.1:5000/chat
+http://127.0.0.1:8000/chat
 ```
 
 ## Running the Frontend
@@ -213,7 +210,7 @@ http://127.0.0.1:5000/chat
 Open:
 
 ```text
-frontend/index.html
+http://127.0.0.1:5500/chat
 ```
 
 in a web browser.
@@ -245,7 +242,6 @@ The Gemini API key should never be placed directly inside:
 index.html
 script.js
 ```
-
 The key is kept on the backend through the `GEMINI_API_KEY` environment variable.
 
 The browser communicates with the Python backend rather than directly with Gemini.
@@ -262,8 +258,6 @@ This prevents the API key from being exposed to the browser.
 
 ## Current Limitations
 
-The current version is an early MVP.
-
 It currently does not include:
 
 - User accounts
@@ -273,7 +267,6 @@ It currently does not include:
 - Pronunciation analysis
 - Text-to-speech
 - Authentication
-- API Gateway
 - Production deployment
 - Advanced progress tracking
 
@@ -295,25 +288,15 @@ Possible future improvements include:
 - Cloud deployment
 - Database integration
 - Production security improvements
+- Deployment on AWS cloud services
 
 ## Project Goal
 
 The goal of Language Buddy is to create a simple and accessible way for people to practice languages through natural AI conversations.
 
-The project also provides practical experience with:
-
-- Frontend development
-- Python
-- Flask
-- APIs
-- AI integration
-- Environment variables
-- Backend development
-- Cloud architecture concepts
-
 ## Status
 
-**Current status: MVP working locally 🚀**
+**Current status: MVP working locally **
 
 The application can successfully:
 
@@ -322,11 +305,11 @@ User
   ↓
 Frontend
   ↓
-Flask
+FastAPI
   ↓
 Gemini
   ↓
-Flask
+FastAPI
   ↓
 Frontend
 ```
