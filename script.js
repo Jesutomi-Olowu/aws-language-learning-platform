@@ -39,7 +39,7 @@ async function sendMessage() {
   sendButton.textContent = "Thinking...";
 
   try {
-    const response = await fetch("http://127.0.0.1:8000/chat", {
+    const response = await fetch("https://clmpn2u891.execute-api.us-east-1.amazonaws.com/chat", {
       method: "POST",
       headers: {
         "Content-Type": 
