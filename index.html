@@ -7,6 +7,83 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
+    <section id="auth-section">
+
+        <main class="app">
+
+            <header class="app-header">
+                <div>
+                    <h1>Language Buddy</h1>
+                    <p>Practice a language with AI.</p>
+                </div>
+            </header>
+
+            <div id="signup-form">
+
+                <h2>Create Account</h2>
+
+                <input
+                    type="text"
+                    id="signup-username"
+                    placeholder="Username"
+                >
+
+                <input
+                    type="password"
+                    id="signup-password"
+                    placeholder="Password"
+                >
+
+                <button onclick="signup()">
+                    Create Account
+                </button>
+
+                <p>
+                    Already have an account?
+                    <button onclick="showLogin()">
+                        Login
+                    </button>
+                </p>
+
+            </div>
+            
+            <div
+                id="login-form"
+                style="display: none;"
+            >
+
+                <h2>Login</h2>
+                <input
+                    type="text"
+                    id="login-username"
+                    placeholder="Username"
+                >
+                <input
+                    type="password"
+                    id="login-password"
+                    placeholder="Password"
+                >
+                <button onclick="login()">
+                    Login
+                </button>
+                <p>
+                    Don't have an account?
+                    <button onclick="showSignup()">
+                        Sign up
+                    </button>
+                </p>
+
+            </div>
+            <p id="auth-message"></p>
+        </main>
+    </section>
+    <section
+        id="chat-section"
+        style="display: none;"
+    >
+
+        <main class="app">
+
 <body>
 
     <main class="app">
