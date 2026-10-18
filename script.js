@@ -1,4 +1,4 @@
-const API_URL = "https://main.d9atveo9le20.amplifyapp.com/";
+const API_URL = "https://clmpn2u891.execute-api.us-east-1.amazonaws.com";
 
 
 
