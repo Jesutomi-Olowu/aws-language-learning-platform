@@ -1,16 +1,18 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f4ef">
     <title>Language Buddy</title>
     <link rel="stylesheet" href="style.css">
 </head>
+<body>
 
+    <!-- SIGNUP AND LOGIN -->
     <section id="auth-section">
-
         <main class="app">
-
             <header class="app-header">
                 <div>
                     <h1>Language Buddy</h1>
@@ -19,145 +21,167 @@
             </header>
 
             <div id="signup-form">
-
                 <h2>Create Account</h2>
 
-                <input
-                    type="text"
-                    id="signup-username"
-                    placeholder="Username"
-                >
+                <form id="signup-form-element">
+                    <input
+                        type="text"
+                        id="signup-username"
+                        placeholder="Username"
+                        autocomplete="username"
+                        required
+                    >
 
-                <input
-                    type="password"
-                    id="signup-password"
-                    placeholder="Password"
-                >
+                    <input
+                        type="password"
+                        id="signup-password"
+                        placeholder="Password"
+                        autocomplete="new-password"
+                        required
+                    >
 
-                <button onclick="signup()">
-                    Create Account
-                </button>
+                    <button id="signup-button" type="submit">
+                        Create Account
+                    </button>
+                </form>
 
                 <p>
                     Already have an account?
-                    <button onclick="showLogin()">
+                    <button type="button" id="show-login-button">
                         Login
                     </button>
                 </p>
-
             </div>
-            
-            <div
-                id="login-form"
-                style="display: none;"
-            >
 
+            <div id="login-form" style="display: none;">
                 <h2>Login</h2>
-                <input
-                    type="text"
-                    id="login-username"
-                    placeholder="Username"
-                >
-                <input
-                    type="password"
-                    id="login-password"
-                    placeholder="Password"
-                >
-                <button onclick="login()">
-                    Login
-                </button>
+
+                <form id="login-form-element">
+                    <input
+                        type="text"
+                        id="login-username"
+                        placeholder="Username"
+                        autocomplete="username"
+                        required
+                    >
+
+                    <input
+                        type="password"
+                        id="login-password"
+                        placeholder="Password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button id="login-button" type="submit">
+                        Login
+                    </button>
+                </form>
+
                 <p>
                     Don't have an account?
-                    <button onclick="showSignup()">
+                    <button type="button" id="show-signup-button">
                         Sign up
                     </button>
                 </p>
-
             </div>
-            <p id="auth-message"></p>
+
+            <p id="auth-message" role="status" aria-live="polite"></p>
         </main>
     </section>
-    <section
-        id="chat-section"
-        style="display: none;"
-    >
 
+    <!-- CHAT APPLICATION -->
+    <section id="chat-section" style="display: none;">
         <main class="app">
 
-<body>
-
-    <main class="app">
-
-        <header class="app-header">
-            <div>
-                <h1>Language Buddy</h1>
-                <p>Practice a language with AI.</p>
-            </div>
-        </header>
-
-        <section class="settings">
-
-            <div class="field">
-                <label for="language">Language</label>
-
-                <select id="language">
-                    <option value="Thai">Thai</option>
-                    <option value="English">English</option>
-                    <option value="Spanish">Spanish</option>
-                    <option value="French">French</option>
-                    <option value="German">German</option>
-                    <option value="Italian">Italian</option>
-                    <option value="Portuguese">Portuguese</option>
-                    <option value="Japanese">Japanese</option>
-                    <option value="Korean">Korean</option>
-                    <option value="Chinese">Chinese</option>
-                    <option value="Arabic">Arabic</option>
-                    <option value="Russian">Russian</option>
-                    <option value="Hindi">Hindi</option>
-                    <option value="Indonesian">Indonesian</option>
-                    <option value="Turkish">Turkish</option>
-                </select>
-            </div>
-
-            <div class="field">
-                <label for="level">Level</label>
-
-                <select id="level">
-                    <option value="Beginner">Beginner</option>
-                    <option value="Intermediate">Intermediate</option>
-                    <option value="Advanced">Advanced</option>
-                </select>
-            </div>
-
-        </section>
-
-        <section class="chat">
-
-            <div class="chat-header">
-                <h2>Language Buddy</h2>
-            </div>
-
-            <div id="messages" class="messages">
-                <div class="message ai-message">
-                    Hello! Choose a language and level, then send me a message to start practicing.
+            <header class="app-header">
+                <div>
+                    <h1>Language Buddy</h1>
+                    <p>Practice a language with AI.</p>
                 </div>
-            </div>
 
-            <div class="input-area">
-                <input
-                    type="text"
-                    id="messageInput"
-                    placeholder="Type your message..."
+                <div class="user-controls">
+                    <span>
+                        Hello, <strong id="username-display"></strong>
+                    </span>
+                    <button id="logout-button" type="button">
+                        Logout
+                    </button>
+                </div>
+            </header>
+
+            <!-- LANGUAGE AND LEVEL -->
+            <section class="settings">
+                <div class="field">
+                    <label for="language">Language</label>
+
+                    <select id="language">
+                        <option value="Thai">Thai</option>
+                        <option value="English">English</option>
+                        <option value="Spanish">Spanish</option>
+                        <option value="French">French</option>
+                        <option value="German">German</option>
+                        <option value="Italian">Italian</option>
+                        <option value="Portuguese">Portuguese</option>
+                        <option value="Japanese">Japanese</option>
+                        <option value="Korean">Korean</option>
+                        <option value="Chinese">Chinese</option>
+                        <option value="Arabic">Arabic</option>
+                        <option value="Russian">Russian</option>
+                        <option value="Hindi">Hindi</option>
+                        <option value="Indonesian">Indonesian</option>
+                        <option value="Turkish">Turkish</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="level">Level</label>
+
+                    <select id="level">
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- CHAT -->
+            <section class="chat">
+                <div class="chat-header">
+                    <h2>Conversation</h2>
+                    <span id="chat-status" role="status"></span>
+                </div>
+
+                <div
+                    id="messages"
+                    class="messages"
+                    role="log"
+                    aria-live="polite"
+                    aria-relevant="additions text"
                 >
+                    <div class="message ai-message">
+                        Hello! Choose a language and level, then send me
+                        a message to start practicing.
+                    </div>
+                </div>
 
-                <button id="sendButton">Send</button>
-            </div>
+                <form id="chat-form" class="input-area">
+                    <input
+                        type="text"
+                        id="messageInput"
+                        placeholder="Type your message..."
+                        autocomplete="off"
+                        required
+                    >
 
-        </section>
-
-    </main>
+                    <button id="sendButton" type="submit">
+                        Send
+                    </button>
+                </form>
+            </section>
+        </main>
+    </section>
 
     <script src="script.js"></script>
-
 </body>
 </html>
