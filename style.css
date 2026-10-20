@@ -299,3 +299,51 @@ body {
         justify-content: space-between;
     }
 }
+
+
+.user-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.user-controls button,
+.delete-message-button {
+    cursor: pointer;
+}
+
+.delete-message-button {
+    display: block;
+    margin-top: 8px;
+    padding: 4px 9px;
+    font-size: 12px;
+    border: 1px solid #d7d0c7;
+    border-radius: 6px;
+    background: transparent;
+    color: #8b3636;
+}
+
+.delete-message-button:hover {
+    background: #f7e8e8;
+}
+
+.delete-message-button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.message-text {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+#chat-status {
+    font-size: 12px;
+}
+
