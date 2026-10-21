@@ -13,6 +13,50 @@ const chatStatus = document.getElementById("chat-status");
 
 const language = document.getElementById("language");
 const level = document.getElementById("level");
+function saveSettings() {
+  localStorage.setItem(
+    "languageBuddySettings",
+    JSON.stringify({
+      language: language.value,
+      level: level.value
+    })
+  );
+}
+
+function loadSettings() {
+  const saved = localStorage.getItem("languageBuddySettings");
+
+  if (!saved) return;
+
+  try {
+    const settings = JSON.parse(saved);
+
+    if (
+      settings.language &&
+      [...language.options].some(
+        option => option.value === settings.language
+      )
+    ) {
+      language.value = settings.language;
+    }
+
+    if (
+      settings.level &&
+      [...level.options].some(
+        option => option.value === settings.level
+      )
+    ) {
+      level.value = settings.level;
+    }
+  } catch (error) {
+    console.error("Could not load saved settings:", error);
+  }
+}
+
+language.addEventListener("change", saveSettings);
+level.addEventListener("change", saveSettings);
+
+loadSettings();
 const messageInput = document.getElementById("messageInput");
 const sendButton = document.getElementById("sendButton");
 const messages = document.getElementById("messages");
